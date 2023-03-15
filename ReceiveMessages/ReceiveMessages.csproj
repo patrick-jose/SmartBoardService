@@ -11,5 +11,6 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SmartBoardService.Utils\SmartBoardService.Utils.csproj" />
+    <ProjectReference Include="..\SmartBoardService.Data\SmartBoardService.Data.csproj" />
   </ItemGroup>
 </Project>

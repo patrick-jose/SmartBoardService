@@ -1,2 +1,7 @@
-﻿// See https://aka.ms/new-console-template for more information
-Console.WriteLine("Hello, World! teste");
+﻿using System.Text.Json;
+using ReceiveMessages;
+using SmartBoardService.Data.DTOs;
+
+var receive = new Receive();
+
+receive.StartListening();

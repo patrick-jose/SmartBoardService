@@ -1,19 +1,17 @@
-﻿
+
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.33414.496
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartBoardService", "SmartBoardService\SmartBoardService.csproj", "{13F3693C-CDBE-4197-B118-117123FCBBCD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartBoardService.Business", "SmartBoardService.Business\SmartBoardService.Business.csproj", "{71AF5A01-D72F-4537-A456-F23A6A68FA1A}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartBoardService.Data", "SmartBoardService.Data\SmartBoardService.Data.csproj", "{EFDDD696-5A3D-40C2-BFE8-5A3F2D544354}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartBoardService.Tests", "SmartBoardService.Tests\SmartBoardService.Tests.csproj", "{848BAC57-F320-4003-BE26-8C9AB7BC7670}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartBoardService.Utils", "SmartBoardService.Utils\SmartBoardService.Utils.csproj", "{91BDA684-EA18-4EEE-9B14-414E08C8BE4C}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReceiveMessages", "ReceiveMessages\ReceiveMessages.csproj", "{9D94DBDF-AB1D-459D-9A85-0DAD160FE3DF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartBoardService.Utils", "SmartBoardService.Utils\SmartBoardService.Utils.csproj", "{68664991-067F-4E74-965E-418B917096C3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -25,10 +23,6 @@ Global
 		{13F3693C-CDBE-4197-B118-117123FCBBCD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{13F3693C-CDBE-4197-B118-117123FCBBCD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{13F3693C-CDBE-4197-B118-117123FCBBCD}.Release|Any CPU.Build.0 = Release|Any CPU
-		{71AF5A01-D72F-4537-A456-F23A6A68FA1A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{71AF5A01-D72F-4537-A456-F23A6A68FA1A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{71AF5A01-D72F-4537-A456-F23A6A68FA1A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{71AF5A01-D72F-4537-A456-F23A6A68FA1A}.Release|Any CPU.Build.0 = Release|Any CPU
 		{EFDDD696-5A3D-40C2-BFE8-5A3F2D544354}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{EFDDD696-5A3D-40C2-BFE8-5A3F2D544354}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EFDDD696-5A3D-40C2-BFE8-5A3F2D544354}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -45,6 +39,10 @@ Global
 		{9D94DBDF-AB1D-459D-9A85-0DAD160FE3DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9D94DBDF-AB1D-459D-9A85-0DAD160FE3DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9D94DBDF-AB1D-459D-9A85-0DAD160FE3DF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{68664991-067F-4E74-965E-418B917096C3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{68664991-067F-4E74-965E-418B917096C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{68664991-067F-4E74-965E-418B917096C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{68664991-067F-4E74-965E-418B917096C3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

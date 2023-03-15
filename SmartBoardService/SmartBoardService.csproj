@@ -7,4 +7,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\ReceiveMessages\ReceiveMessages.csproj" />
+    <ProjectReference Include="..\SmartBoardService.Data\SmartBoardService.Data.csproj" />
+  </ItemGroup>
 </Project>

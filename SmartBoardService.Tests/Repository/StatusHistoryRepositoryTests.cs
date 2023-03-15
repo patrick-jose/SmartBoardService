@@ -6,43 +6,43 @@ using SmartBoardService.Utils;
 namespace SmartBoardService.Tests.Repository
 {
     [TestClass]
-    public class UserRepositoryTests
+    public class StatusHistoryRepositoryTests
     {
-        private IUserRepository _userRepository;
+        private IStatusHistoryRepository _statusHistoryRepository;
         private ILogWriter _log;
 
         [TestMethod]
-        public async Task UpdateUserAsyncTest()
+        public async Task UpdateStatusHistoryAsyncTest()
         {
             _log = new LogWriter();
-            _userRepository = new UserRepository(_log);
+            _statusHistoryRepository = new StatusHistoryRepository(_log);
 
-            var dto = new UserDTO()
+            var dto = new StatusHistoryDTO()
             {
                 Id = 2,
                 Name = "Marcio",
                 Password = "marciopw"
             };
 
-            var result = await _userRepository.UpdateUserAsync(dto);
+            var result = await _statusHistoryRepository.UpdateStatusHistoryAsync(dto);
 
             Assert.IsTrue(result);
         }
 
         [TestMethod]
-        public async Task UpdateUsersAsyncTest()
+        public async Task UpdateStatusHistorysAsyncTest()
         {
             _log = new LogWriter();
-            _userRepository = new UserRepository(_log);
+            _statusHistoryRepository = new StatusHistoryRepository(_log);
 
-            var list = new List<UserDTO>();
-            var dto1 = new UserDTO()
+            var list = new List<StatusHistoryDTO>();
+            var dto1 = new StatusHistoryDTO()
             {
                 Id = 2,
                 Name = "Fabricio",
                 Password = "fabriciopw"
             };
-            var dto2 = new UserDTO()
+            var dto2 = new StatusHistoryDTO()
             {
                 Id = 1,
                 Name = "Patrick",
@@ -52,42 +52,42 @@ namespace SmartBoardService.Tests.Repository
             list.Add(dto1);
             list.Add(dto2);
 
-            var result = await _userRepository.UpdateUsersAsync(list);
+            var result = await _statusHistoryRepository.UpdateStatusHistorysAsync(list);
 
             Assert.IsTrue(result);
         }
 
         [TestMethod]
-        public async Task InsertUserAsyncTest()
+        public async Task InsertStatusHistoryAsyncTest()
         {
             _log = new LogWriter();
-            _userRepository = new UserRepository(_log);
+            _statusHistoryRepository = new StatusHistoryRepository(_log);
 
-            var dto = new UserDTO()
+            var dto = new StatusHistoryDTO()
             {
                 Id = 2,
                 Name = "Insert Test",
                 Password = "testpw"
             };
 
-            var result = await _userRepository.InsertUserAsync(dto);
+            var result = await _statusHistoryRepository.InsertStatusHistoryAsync(dto);
 
             Assert.IsTrue(result);
         }
 
         [TestMethod]
-        public async Task InsertUsersAsyncTest()
+        public async Task InsertStatusHistorysAsyncTest()
         {
             _log = new LogWriter();
-            _userRepository = new UserRepository(_log);
+            _statusHistoryRepository = new StatusHistoryRepository(_log);
 
-            var list = new List<UserDTO>();
-            var dto1 = new UserDTO()
+            var list = new List<StatusHistoryDTO>();
+            var dto1 = new StatusHistoryDTO()
             {
                 Name = "Test Multiple 1",
                 Password = "testpw"
             };
-            var dto2 = new UserDTO()
+            var dto2 = new StatusHistoryDTO()
             {
                 Name = "Test Multiple 2",
                 Password = "test2pw"
@@ -96,7 +96,7 @@ namespace SmartBoardService.Tests.Repository
             list.Add(dto1);
             list.Add(dto2);
 
-            var result = await _userRepository.InsertUsersAsync(list);
+            var result = await _statusHistoryRepository.InsertStatusHistorysAsync(list);
 
             Assert.IsTrue(result);
         }

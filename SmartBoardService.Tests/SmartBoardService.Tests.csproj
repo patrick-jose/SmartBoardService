@@ -18,4 +18,15 @@
 </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <None Remove="Repository\" />
+    <None Remove="Business\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Repository\" />
+    <Folder Include="Business\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SmartBoardService.Data\SmartBoardService.Data.csproj" />
+  </ItemGroup>
 </Project>

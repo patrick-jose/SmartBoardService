@@ -1,0 +1,24 @@
+{
+    "TransactionType":0,
+    "Element":0,
+    "Value": [
+        {
+            "id": 1,
+            "name": "Board 1",
+            "active": true,
+            "sections": []
+        },
+        {
+            "id": 3,
+            "name": "Board 3",
+            "active": true,
+            "sections": []
+        },
+        {
+            "id": 2,
+            "name": "Board 2",
+            "active": true,
+            "sections": []
+        }
+    ]
+}

@@ -21,6 +21,7 @@ namespace ReceiveMessages
             var boardDTO = new BoardDTO();
 
             var userRepository = new UserRepository(log);
+            var statusHistoryRepository = new StatusHistoryRepository(log);
 
             var factory = new ConnectionFactory { HostName = "localhost" };
             using var connection = factory.CreateConnection();
@@ -94,10 +95,12 @@ namespace ReceiveMessages
                         if (header.Multiple)
                         {
                             var message = JsonSerializer.Deserialize<List<StatusHistoryDTO>>(Encoding.UTF8.GetString(body));
+                            await statusHistoryRepository.InsertStatusHistoriesAsync(message);
                         }
                         else
                         {
                             var message = JsonSerializer.Deserialize<StatusHistoryDTO>(Encoding.UTF8.GetString(body));
+                            await statusHistoryRepository.InsertStatusHistoryAsync(message);
                         }
                         break;
                     case ElementEnum.USER:

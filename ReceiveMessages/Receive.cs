@@ -1,5 +1,7 @@
-﻿using System.Text;
+﻿using System;
+using System.Text;
 using System.Text.Json;
+using System.Xml.Linq;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using SmartBoardService.Data.DTOs;
@@ -43,69 +45,65 @@ namespace ReceiveMessages
 
             consumer.Received += async (model, ea) =>
             {
-                var header = new Header();
+                if (ea.BasicProperties.Headers != null)
+                {
+                    var elementString = Encoding.UTF8.GetString((byte[])ea.BasicProperties.Headers["ELEMENT"]);
+                    var transactionTypeString = Encoding.UTF8.GetString((byte[])ea.BasicProperties.Headers["TRANSACTIONTYPE"]);
+                    var multipleString = Encoding.UTF8.GetString((byte[])ea.BasicProperties.Headers["MULTIPLE"]);
 
-                foreach (var item in ea.BasicProperties.Headers)
-                {                    
-                    switch (item.Key)
+                    var header = new Header()
                     {
-                        case "ELEMENT":
-                            header.Element = (ElementEnum)int.Parse(item.Value.ToString());
+                        Element = (ElementEnum)Enum.Parse(typeof(ElementEnum), elementString),
+                        TransactionType = (TransactionTypeEnum)Enum.Parse(typeof(TransactionTypeEnum), transactionTypeString),
+                        Multiple = Convert.ToBoolean(multipleString)
+                    };
+
+                    var body = ea.Body.ToArray();
+
+                    switch (header.Element)
+                    {
+                        case ElementEnum.TASK:
+                            if (header.Multiple)
+                                taskRepository.UpdateTasksAsync(JsonSerializer.Deserialize<List<TaskDTO>>(Encoding.UTF8.GetString(body)));
+                            else
+                            {
+                                if (header.TransactionType == TransactionTypeEnum.UPDATE)
+                                    taskRepository.UpdateTaskAsync(JsonSerializer.Deserialize<TaskDTO>(Encoding.UTF8.GetString(body)));
+                                else
+                                    taskRepository.InsertTaskAsync(JsonSerializer.Deserialize<TaskDTO>(Encoding.UTF8.GetString(body)));
+                            }
                             break;
-                        case "TRANSACTION":
-                            header.TransactionType = (TransactionTypeEnum)int.Parse(item.Value.ToString());
+                        case ElementEnum.SECTION:
+                            if (header.Multiple)
+                                sectionRepository.UpdateSectionsAsync(JsonSerializer.Deserialize<List<SectionDTO>>(Encoding.UTF8.GetString(body)));
+                            else
+                            {
+                                if (header.TransactionType == TransactionTypeEnum.UPDATE)
+                                    sectionRepository.UpdateSectionAsync(JsonSerializer.Deserialize<SectionDTO>(Encoding.UTF8.GetString(body)));
+                                else
+                                    sectionRepository.InsertSectionAsync(JsonSerializer.Deserialize<SectionDTO>(Encoding.UTF8.GetString(body)));
+                            }
                             break;
-                        case "MULTIPLE":
-                            header.Multiple = (bool)item.Value;
+                        case ElementEnum.COMMENT:
+                            commentRepository.InsertCommentAsync(JsonSerializer.Deserialize<CommentDTO>(Encoding.UTF8.GetString(body)));
+                            break;
+                        case ElementEnum.STATUSHISTORY:
+                            statusHistoryRepository.InsertStatusHistoryAsync(JsonSerializer.Deserialize<StatusHistoryDTO>(Encoding.UTF8.GetString(body)));
+                            break;
+                        case ElementEnum.USER:
+                            if (header.TransactionType == TransactionTypeEnum.UPDATE)
+                                userRepository.UpdateUserAsync(JsonSerializer.Deserialize<UserDTO>(Encoding.UTF8.GetString(body)));
+                            else
+                                userRepository.InsertUserAsync(JsonSerializer.Deserialize<UserDTO>(Encoding.UTF8.GetString(body)));
+                            break;
+                        case ElementEnum.BOARD:
+                            if (header.TransactionType == TransactionTypeEnum.UPDATE)
+                                boardRepository.UpdateBoardAsync(JsonSerializer.Deserialize<BoardDTO>(Encoding.UTF8.GetString(body)));
+                            else
+                                boardRepository.InsertBoardAsync(JsonSerializer.Deserialize<BoardDTO>(Encoding.UTF8.GetString(body)));
                             break;
                     }
                 }
-
-                var body = ea.Body.ToArray();
-
-                switch (header.Element)
-                {
-                    case ElementEnum.TASK:
-                        if (header.Multiple)
-                            await taskRepository.UpdateTasksAsync(JsonSerializer.Deserialize<List<TaskDTO>>(Encoding.UTF8.GetString(body)));
-                        else
-                        {
-                            if (header.TransactionType == TransactionTypeEnum.UPDATE)
-                                await taskRepository.UpdateTaskAsync(JsonSerializer.Deserialize<TaskDTO>(Encoding.UTF8.GetString(body)));
-                            else
-                                await taskRepository.InsertTaskAsync(JsonSerializer.Deserialize<TaskDTO>(Encoding.UTF8.GetString(body)));
-                        }
-                        break;
-                    case ElementEnum.SECTION:
-                        if (header.Multiple)
-                            await sectionRepository.UpdateSectionsAsync(JsonSerializer.Deserialize<List<SectionDTO>>(Encoding.UTF8.GetString(body)));
-                        else
-                        {
-                            if (header.TransactionType == TransactionTypeEnum.UPDATE)
-                                await sectionRepository.UpdateSectionAsync(JsonSerializer.Deserialize<SectionDTO>(Encoding.UTF8.GetString(body)));
-                            else
-                                await sectionRepository.InsertSectionAsync(JsonSerializer.Deserialize<SectionDTO>(Encoding.UTF8.GetString(body)));
-                        }
-                        break;
-                    case ElementEnum.COMMENT:
-                        await commentRepository.InsertCommentAsync(JsonSerializer.Deserialize<CommentDTO>(Encoding.UTF8.GetString(body)));
-                        break;
-                    case ElementEnum.STATUSHISTORY:
-                            await statusHistoryRepository.InsertStatusHistoryAsync(JsonSerializer.Deserialize<StatusHistoryDTO>(Encoding.UTF8.GetString(body)));
-                        break;
-                    case ElementEnum.USER:
-                            if (header.TransactionType == TransactionTypeEnum.UPDATE)
-                                await userRepository.UpdateUserAsync(JsonSerializer.Deserialize<UserDTO>(Encoding.UTF8.GetString(body)));
-                            else
-                                await userRepository.InsertUserAsync(JsonSerializer.Deserialize<UserDTO>(Encoding.UTF8.GetString(body)));
-                        break;
-                    case ElementEnum.BOARD:
-                        if (header.TransactionType == TransactionTypeEnum.UPDATE)
-                            await boardRepository.UpdateBoardAsync(JsonSerializer.Deserialize<BoardDTO>(Encoding.UTF8.GetString(body)));
-                        else
-                            await boardRepository.InsertBoardAsync(JsonSerializer.Deserialize<BoardDTO>(Encoding.UTF8.GetString(body)));
-                        break;
-                }     
             };
 
             channel.BasicConsume(queue: "SmartBoard",

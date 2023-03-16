@@ -5,6 +5,8 @@ namespace SmartBoardService.Data.DTOs
 {
 	public class CommentDTO
 	{
+        [JsonPropertyName("id")]
+        public long Id { get; set; }
         [JsonPropertyName("writerId")]
         public long WriterId { get; set; }
         [JsonPropertyName("content")]

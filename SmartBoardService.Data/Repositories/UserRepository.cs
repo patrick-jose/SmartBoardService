@@ -38,26 +38,6 @@ namespace SmartBoardService.Data.Repositories
             }
         }
 
-        public async Task<bool> InsertUsersAsync(List<UserDTO> users)
-        {
-            try
-            {
-                var result = new List<bool>();
-
-                foreach (var user in users)
-                {
-                    result.Add(await this.InsertUserAsync(user));
-                }
-
-                return !result.Contains(false);
-            }
-            catch (Exception ex)
-            {
-                _log.LogWrite(ex.Message);
-                throw;
-            }
-        }
-
         public async Task<bool> UpdateUserAsync(UserDTO user)
         {
             try
@@ -80,27 +60,6 @@ namespace SmartBoardService.Data.Repositories
                 _log.LogWrite(ex.Message);
                 throw;
             }
-        }
-
-        public async Task<bool> UpdateUsersAsync(List<UserDTO> users)
-        {
-            try
-            {
-                var result = new List<bool>();
-
-                foreach (var user in users)
-                {
-                    result.Add(await this.UpdateUserAsync(user));
-                }
-
-                return !result.Contains(false);
-            }
-            catch (Exception ex)
-            {
-                _log.LogWrite(ex.Message);
-                throw;
-            }
-
         }
     }
 }

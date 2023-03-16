@@ -6,43 +6,42 @@ using SmartBoardService.Utils;
 namespace SmartBoardService.Tests.Repository
 {
     [TestClass]
-    public class UserRepositoryTests
+    public class BoardRepositoryTests
     {
-        private IUserRepository _userRepository;
+        private IBoardRepository _boardRepository;
         private ILogWriter _log;
 
         [TestMethod]
-        public async Task UpdateUserAsyncTest()
+        public async Task UpdateBoardAsyncTest()
         {
             _log = new LogWriter();
-            _userRepository = new UserRepository(_log);
+            _boardRepository = new BoardRepository(_log);
 
-            var dto = new UserDTO()
+            var dto = new BoardDTO()
             {
-                Id = 2,
-                Name = "Marcio",
-                Password = "marciopw"
+                Id = 3,
+                Name = "Teste integração update",
+                Active = false
             };
 
-            var result = await _userRepository.UpdateUserAsync(dto);
+            var result = await _boardRepository.UpdateBoardAsync(dto);
 
             Assert.IsTrue(result);
         }
 
         [TestMethod]
-        public async Task InsertUserAsyncTest()
+        public async Task InsertBoardAsyncTest()
         {
             _log = new LogWriter();
-            _userRepository = new UserRepository(_log);
+            _boardRepository = new BoardRepository(_log);
 
-            var dto = new UserDTO()
+            var dto = new BoardDTO()
             {
-                Id = 2,
-                Name = "Insert Test",
-                Password = "testpw"
+                Name = "Teste integração",
+                Active = true
             };
 
-            var result = await _userRepository.InsertUserAsync(dto);
+            var result = await _boardRepository.InsertBoardAsync(dto);
 
             Assert.IsTrue(result);
         }

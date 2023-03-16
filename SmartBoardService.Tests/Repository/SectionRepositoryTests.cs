@@ -6,93 +6,76 @@ using SmartBoardService.Utils;
 namespace SmartBoardService.Tests.Repository
 {
     [TestClass]
-    public class TaskRepositoryTests
+    public class SectionRepositoryTests
     {
-        private ITaskRepository _taskRepository;
+        private ISectionRepository _sectionRepository;
         private ILogWriter _log;
 
         [TestMethod]
-        public async Task UpdateTaskAsyncTest()
+        public async Task UpdateSectionAsyncTest()
         {
             _log = new LogWriter();
-            _taskRepository = new TaskRepository(_log);
+            _sectionRepository = new SectionRepository(_log);
 
-            var dto = new TaskDTO()
+            var dto = new SectionDTO()
             {
-                Id = 2,
+                Active = false,
                 Name = "Teste integração",
-                Active = true,
-                AssigneeId = 2,
-                Blocked = false,
-                Description = "Descrição teste integrado",
-                Position = 2,
-                SectionId = 1
+                Id = 6,
+                Position = 2
             };
 
-            var result = await _taskRepository.UpdateTaskAsync(dto);
+            var result = await _sectionRepository.UpdateSectionAsync(dto);
 
             Assert.IsTrue(result);
         }
 
         [TestMethod]
-        public async Task UpdateTasksAsyncTest()
+        public async Task UpdateSectionsAsyncTest()
         {
             _log = new LogWriter();
-            _taskRepository = new TaskRepository(_log);
+            _sectionRepository = new SectionRepository(_log);
 
-            var dto1 = new TaskDTO()
+            var dto1 = new SectionDTO()
             {
-                Id = 4,
-                Name = "Teste integração",
                 Active = true,
-                AssigneeId = 2,
-                Blocked = false,
-                Description = "Descrição teste integrado",
-                Position = 3,
-                SectionId = 1
+                Id = 5,
+                Name = "Teste integração multiplos updates 1",
+                Position = 4
             };
 
-            var dto2 = new TaskDTO()
+            var dto2 = new SectionDTO()
             {
-                Id = 3,
-                Name = "Teste integração 2",
                 Active = true,
-                AssigneeId = 2,
-                Blocked = false,
-                CreatorId = 2,
-                Position = 4,
-                SectionId = 1
+                Id = 10,
+                Name = "Teste integração multiplos updates 2",
+                Position = 1
             };
 
-            var dtos = new List<TaskDTO>();
+            var dtos = new List<SectionDTO>();
             dtos.Add(dto1);
             dtos.Add(dto2);
 
-            var result = await _taskRepository.UpdateTasksAsync(dtos);
+            var result = await _sectionRepository.UpdateSectionsAsync(dtos);
 
             Assert.IsTrue(result);
         }
 
         [TestMethod]
-        public async Task InsertTaskAsyncTest()
+        public async Task InsertSectionAsyncTest()
         {
             _log = new LogWriter();
-            _taskRepository = new TaskRepository(_log);
+            _sectionRepository = new SectionRepository(_log);
 
-            var dto = new TaskDTO()
+            var dto = new SectionDTO()
             {
-                Name = "Teste integração",
                 Active = true,
-                AssigneeId = 2,
-                Blocked = false,
-                CreatorId = 2,
-                DateCreation = DateTime.Now.AddDays(-12),
-                Description = "Descrição teste integrado",
-                Position = 3,
-                SectionId = 3
+                Name = "Teste integração",
+                Position = 1,
+                BoardId = 3
             };
 
-            var result = await _taskRepository.InsertTaskAsync(dto);
+            var result = await _sectionRepository.InsertSectionAsync(dto);
 
             Assert.IsTrue(result);
         }

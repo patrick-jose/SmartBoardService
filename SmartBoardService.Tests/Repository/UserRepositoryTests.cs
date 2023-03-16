@@ -30,34 +30,6 @@ namespace SmartBoardService.Tests.Repository
         }
 
         [TestMethod]
-        public async Task UpdateUsersAsyncTest()
-        {
-            _log = new LogWriter();
-            _userRepository = new UserRepository(_log);
-
-            var list = new List<UserDTO>();
-            var dto1 = new UserDTO()
-            {
-                Id = 2,
-                Name = "Fabricio",
-                Password = "fabriciopw"
-            };
-            var dto2 = new UserDTO()
-            {
-                Id = 1,
-                Name = "Patrick",
-                Password = "patrickpw"
-            };
-
-            list.Add(dto1);
-            list.Add(dto2);
-
-            var result = await _userRepository.UpdateUsersAsync(list);
-
-            Assert.IsTrue(result);
-        }
-
-        [TestMethod]
         public async Task InsertUserAsyncTest()
         {
             _log = new LogWriter();
@@ -71,32 +43,6 @@ namespace SmartBoardService.Tests.Repository
             };
 
             var result = await _userRepository.InsertUserAsync(dto);
-
-            Assert.IsTrue(result);
-        }
-
-        [TestMethod]
-        public async Task InsertUsersAsyncTest()
-        {
-            _log = new LogWriter();
-            _userRepository = new UserRepository(_log);
-
-            var list = new List<UserDTO>();
-            var dto1 = new UserDTO()
-            {
-                Name = "Test Multiple 1",
-                Password = "testpw"
-            };
-            var dto2 = new UserDTO()
-            {
-                Name = "Test Multiple 2",
-                Password = "test2pw"
-            };
-
-            list.Add(dto1);
-            list.Add(dto2);
-
-            var result = await _userRepository.InsertUsersAsync(list);
 
             Assert.IsTrue(result);
         }

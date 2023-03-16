@@ -7,8 +7,8 @@ namespace SmartBoardService.Data.DTOs
 	{
         [JsonPropertyName("id")]
         public long Id { get; set; }
-        [JsonPropertyName("creator")]
-        public UserDTO Creator { get; set; }
+        [JsonPropertyName("creatorId")]
+        public long CreatorId { get; set; }
         [JsonPropertyName("name")]
         public string Name { get; set; }
         [JsonPropertyName("description")]
@@ -21,14 +21,10 @@ namespace SmartBoardService.Data.DTOs
         public bool Active { get; set; }
         [JsonPropertyName("blocked")]
         public bool Blocked { get; set; }
-        [JsonPropertyName("assignee")]
-        public UserDTO? Assignee { get; set; }
+        [JsonPropertyName("assigneeid")]
+        public long? AssigneeId { get; set; }
         [JsonPropertyName("position")]
         public long Position { get; set; }
-        [JsonPropertyName("comments")]
-        public List<CommentDTO>? Comments { get; set; }
-        [JsonPropertyName("statusHistory")]
-        public List<StatusHistoryDTO>? StatusHistory { get; set; }
     }
 }
 

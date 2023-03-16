@@ -22,6 +22,10 @@ namespace ReceiveMessages
 
             var userRepository = new UserRepository(log);
             var statusHistoryRepository = new StatusHistoryRepository(log);
+            var commentRepository = new CommentRepository(log);
+            var taskRepository = new TaskRepository(log);
+            var boardRepository = new BoardRepository(log);
+            var sectionRepository = new SectionRepository(log);
 
             var factory = new ConnectionFactory { HostName = "localhost" };
             using var connection = factory.CreateConnection();
@@ -63,75 +67,43 @@ namespace ReceiveMessages
                 {
                     case ElementEnum.TASK:
                         if (header.Multiple)
-                        {
-                            var message = JsonSerializer.Deserialize<List<TaskDTO>>(Encoding.UTF8.GetString(body));
-                        }
+                            await taskRepository.UpdateTasksAsync(JsonSerializer.Deserialize<List<TaskDTO>>(Encoding.UTF8.GetString(body)));
                         else
                         {
-                            var message = JsonSerializer.Deserialize<TaskDTO>(Encoding.UTF8.GetString(body));
+                            if (header.TransactionType == TransactionTypeEnum.UPDATE)
+                                await taskRepository.UpdateTaskAsync(JsonSerializer.Deserialize<TaskDTO>(Encoding.UTF8.GetString(body)));
+                            else
+                                await taskRepository.InsertTaskAsync(JsonSerializer.Deserialize<TaskDTO>(Encoding.UTF8.GetString(body)));
                         }
                         break;
                     case ElementEnum.SECTION:
                         if (header.Multiple)
-                        {
-                            var message = JsonSerializer.Deserialize<List<SectionDTO>>(Encoding.UTF8.GetString(body));
-                        }
+                            await sectionRepository.UpdateSectionsAsync(JsonSerializer.Deserialize<List<SectionDTO>>(Encoding.UTF8.GetString(body)));
                         else
                         {
-                            var message = JsonSerializer.Deserialize<SectionDTO>(Encoding.UTF8.GetString(body));
+                            if (header.TransactionType == TransactionTypeEnum.UPDATE)
+                                await sectionRepository.UpdateSectionAsync(JsonSerializer.Deserialize<SectionDTO>(Encoding.UTF8.GetString(body)));
+                            else
+                                await sectionRepository.InsertSectionAsync(JsonSerializer.Deserialize<SectionDTO>(Encoding.UTF8.GetString(body)));
                         }
                         break;
                     case ElementEnum.COMMENT:
-                        if (header.Multiple)
-                        {
-                            var message = JsonSerializer.Deserialize<List<CommentDTO>>(Encoding.UTF8.GetString(body));
-                        }
-                        else
-                        {
-                            var message = JsonSerializer.Deserialize<CommentDTO>(Encoding.UTF8.GetString(body));
-                        }
+                        await commentRepository.InsertCommentAsync(JsonSerializer.Deserialize<CommentDTO>(Encoding.UTF8.GetString(body)));
                         break;
                     case ElementEnum.STATUSHISTORY:
-                        if (header.Multiple)
-                        {
-                            var message = JsonSerializer.Deserialize<List<StatusHistoryDTO>>(Encoding.UTF8.GetString(body));
-                            await statusHistoryRepository.InsertStatusHistoriesAsync(message);
-                        }
-                        else
-                        {
-                            var message = JsonSerializer.Deserialize<StatusHistoryDTO>(Encoding.UTF8.GetString(body));
-                            await statusHistoryRepository.InsertStatusHistoryAsync(message);
-                        }
+                            await statusHistoryRepository.InsertStatusHistoryAsync(JsonSerializer.Deserialize<StatusHistoryDTO>(Encoding.UTF8.GetString(body)));
                         break;
                     case ElementEnum.USER:
-                        if (header.Multiple)
-                        {
-                            var message = JsonSerializer.Deserialize<List<UserDTO>>(Encoding.UTF8.GetString(body));
-
                             if (header.TransactionType == TransactionTypeEnum.UPDATE)
-                                await userRepository.UpdateUsersAsync(message);
+                                await userRepository.UpdateUserAsync(JsonSerializer.Deserialize<UserDTO>(Encoding.UTF8.GetString(body)));
                             else
-                                await userRepository.InsertUsersAsync(message);
-                        }
-                        else
-                        {
-                            var message = JsonSerializer.Deserialize<UserDTO>(Encoding.UTF8.GetString(body));
-
-                            if (header.TransactionType == TransactionTypeEnum.UPDATE)
-                                await userRepository.UpdateUserAsync(message);
-                            else
-                                await userRepository.InsertUserAsync(message);
-                        }
+                                await userRepository.InsertUserAsync(JsonSerializer.Deserialize<UserDTO>(Encoding.UTF8.GetString(body)));
                         break;
                     case ElementEnum.BOARD:
-                        if (header.Multiple)
-                        {
-                            var message = JsonSerializer.Deserialize<List<BoardDTO>>(Encoding.UTF8.GetString(body));
-                        }
+                        if (header.TransactionType == TransactionTypeEnum.UPDATE)
+                            await boardRepository.UpdateBoardAsync(JsonSerializer.Deserialize<BoardDTO>(Encoding.UTF8.GetString(body)));
                         else
-                        {
-                            var message = JsonSerializer.Deserialize<BoardDTO>(Encoding.UTF8.GetString(body));
-                        }
+                            await boardRepository.InsertBoardAsync(JsonSerializer.Deserialize<BoardDTO>(Encoding.UTF8.GetString(body)));
                         break;
                 }     
             };

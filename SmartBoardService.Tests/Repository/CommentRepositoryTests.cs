@@ -6,27 +6,26 @@ using SmartBoardService.Utils;
 namespace SmartBoardService.Tests.Repository
 {
     [TestClass]
-    public class StatusHistoryRepositoryTests
+    public class CommentRepositoryTests
     {
-        private IStatusHistoryRepository _statusHistoryRepository;
+        private ICommentRepository _commentRepository;
         private ILogWriter _log;
 
         [TestMethod]
-        public async Task InsertStatusHistoryAsyncTest()
+        public async Task InsertCommentAsyncTest()
         {
             _log = new LogWriter();
-            _statusHistoryRepository = new StatusHistoryRepository(_log);
+            _commentRepository = new CommentRepository(_log);
 
-            var dto = new StatusHistoryDTO()
+            var dto = new CommentDTO()
             {
                 TaskId = 30,
-                ActualSection = new SectionDTO() { Id = 7 },
-                PreviousSection = new SectionDTO() { Id = 6 },
-                DateModified = DateTime.Now,
-                User = new UserDTO() { Id = 3 }
+                Content = "Teste de integração",
+                DateCreation = DateTime.Now,
+                WriterId = 1 
             };
 
-            var result = await _statusHistoryRepository.InsertStatusHistoryAsync(dto);
+            var result = await _commentRepository.InsertCommentAsync(dto);
 
             Assert.IsTrue(result);
         }

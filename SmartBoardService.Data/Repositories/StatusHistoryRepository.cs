@@ -27,9 +27,9 @@ namespace SmartBoardService.Data.Repositories
                 {
                     taskId = statusHistory.TaskId,
                     dateModified = statusHistory.DateModified,
-                    previousSectionId = statusHistory.PreviousSection.Id,
-                    userid = statusHistory.User.Id,
-                    actualsectionid = statusHistory.ActualSection.Id
+                    previousSectionId = statusHistory.PreviousSectionId,
+                    userid = statusHistory.UserId,
+                    actualsectionid = statusHistory.ActualSectionId
                 };
 
                 var result = await _dbConnection.connection.ExecuteAsync(commandText, queryArgs);
@@ -37,26 +37,6 @@ namespace SmartBoardService.Data.Repositories
                 _dbConnection.CloseConnection();
 
                 return result == 1;
-            }
-            catch (Exception ex)
-            {
-                _log.LogWrite(ex.Message);
-                throw;
-            }
-        }
-
-        public async Task<bool> InsertStatusHistoriesAsync(List<StatusHistoryDTO> statusHistories)
-        {
-            try
-            {
-                var result = new List<bool>();
-
-                foreach (var statusHistory in statusHistories)
-                {
-                    result.Add(await this.InsertStatusHistoryAsync(statusHistory));
-                }
-
-                return !result.Contains(false);
             }
             catch (Exception ex)
             {

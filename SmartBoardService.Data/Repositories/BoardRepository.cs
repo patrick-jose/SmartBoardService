@@ -5,25 +5,25 @@ using SmartBoardService.Utils;
 
 namespace SmartBoardService.Data.Repositories
 {
-    public class UserRepository : IUserRepository
+    public class BoardRepository : IBoardRepository
     {
         private readonly ILogWriter _log;
         private readonly DbConnection _dbConnection;
 
-        public UserRepository(ILogWriter log)
+        public BoardRepository(ILogWriter log)
         {
             _log = log;
             _dbConnection = new DbConnection(_log);
         }
 
-        public async Task<bool> InsertUserAsync(UserDTO user)
+        public async Task<bool> InsertBoardAsync(BoardDTO board)
         {
             try
             {
-                string commandText = @$"insert into smartboard.user (name, password)
-                                        values (@name, @password)";
+                string commandText = @$"insert into smartboard.board (name, active)
+                                        values (@name, @active)";
 
-                var queryArgs = new { name = user.Name, password = user.Password };
+                var queryArgs = new { name = board.Name, active = board.Active };
 
                 var result = await _dbConnection.connection.ExecuteAsync(commandText, queryArgs);
 
@@ -38,16 +38,16 @@ namespace SmartBoardService.Data.Repositories
             }
         }
 
-        public async Task<bool> UpdateUserAsync(UserDTO user)
+        public async Task<bool> UpdateBoardAsync(BoardDTO board)
         {
             try
             {
-                string commandText = @$"update smartboard.user
+                string commandText = @$"update smartboard.board
                                         set name = @name,
-                                        password = @password
+                                        active = @active
                                         where id = @id";
 
-                var queryArgs = new { name = user.Name, password = user.Password, id = user.Id };
+                var queryArgs = new { name = board.Name, active = board.Active, id = board.Id };
 
                 var result = await _dbConnection.connection.ExecuteAsync(commandText, queryArgs);
 

@@ -5,36 +5,31 @@ using SmartBoardService.Utils;
 
 namespace SmartBoardService.Data.Repositories
 {
-    public class TaskRepository : ITaskRepository
+    public class SectionRepository : ISectionRepository
     {
         private readonly ILogWriter _log;
         private readonly DbConnection _dbConnection;
 
-        public TaskRepository(ILogWriter log)
+        public SectionRepository(ILogWriter log)
         {
             _log = log;
             _dbConnection = new DbConnection(_log);
         }
 
-        public async Task<bool> InsertTaskAsync(TaskDTO task)
+        public async Task<bool> InsertSectionAsync(SectionDTO section)
         {
             try
             {
-                string commandText = @$"insert into smartboard.task
-                                        (name, description, datecreation, creatorid, sectionid, blocked, assigneeid, position, active)
-                                        values (@name, @description, @datecreation, @creatorid, @sectionid, @blocked, @assigneeid, @position, @active)";
+                string commandText = @$"insert into smartboard.section
+                                        (name, boardid, position, active)
+                                        values (@name, @boardid, @position, @active)";
 
                 var queryArgs = new
                 {
-                    name = task.Name,
-                    description = task.Description,
-                    creatorid = task.CreatorId,
-                    sectionid = task.SectionId,
-                    blocked = task.Blocked,
-                    assigneeid = task.AssigneeId,
-                    position = task.Position,
-                    active = task.Active,
-                    datecreation = task.DateCreation
+                    name = section.Name,
+                    boardid = section.BoardId,
+                    position = section.Position,
+                    active = section.Active
                 };
 
                 var result = await _dbConnection.connection.ExecuteAsync(commandText, queryArgs);
@@ -50,30 +45,22 @@ namespace SmartBoardService.Data.Repositories
             }
         }
 
-        public async Task<bool> UpdateTaskAsync(TaskDTO task)
+        public async Task<bool> UpdateSectionAsync(SectionDTO section)
         {
             try
             {
-                string commandText = @$"update smartboard.task
+                string commandText = @$"update smartboard.section
                                         set name = @name,
-                                        description = @description,
-                                        sectionid = @sectionid,
-                                        blocked = @blocked,
-                                        assigneeid = @assigneeid,
                                         position = @position,
                                         active = @active
                                         where id = @id";
 
                 var queryArgs = new
                 {
-                    id = task.Id,
-                    name = task.Name,
-                    description = task.Description,
-                    sectionid = task.SectionId,
-                    blocked = task.Blocked,
-                    assigneeid = task.AssigneeId,
-                    position = task.Position,
-                    active = task.Active
+                    id = section.Id,
+                    name = section.Name,
+                    position = section.Position,
+                    active = section.Active
                 };
 
                 var result = await _dbConnection.connection.ExecuteAsync(commandText, queryArgs);
@@ -89,15 +76,15 @@ namespace SmartBoardService.Data.Repositories
             }
         }
 
-        public async Task<bool> UpdateTasksAsync(List<TaskDTO> tasks)
+        public async Task<bool> UpdateSectionsAsync(List<SectionDTO> sections)
         {
             try
             {
                 var result = new List<bool>();
 
-                foreach (var task in tasks)
+                foreach (var section in sections)
                 {
-                    result.Add(await this.UpdateTaskAsync(task));
+                    result.Add(await this.UpdateSectionAsync(section));
                 }
 
                 return !result.Contains(false);

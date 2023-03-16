@@ -5,12 +5,12 @@ namespace SmartBoardService.Data.DTOs
 {
 	public class StatusHistoryDTO
 	{
-        [JsonPropertyName("user")]
-        public UserDTO User { get; set; }
-        [JsonPropertyName("previousSection")]
-        public SectionDTO PreviousSection { get; set; }
-        [JsonPropertyName("actualSection")]
-        public SectionDTO ActualSection { get; set; }
+        [JsonPropertyName("userId")]
+        public long UserId { get; set; }
+        [JsonPropertyName("previousSectionId")]
+        public long PreviousSectionId { get; set; }
+        [JsonPropertyName("actualSectionId")]
+        public long ActualSectionId { get; set; }
         [JsonPropertyName("dateModified")]
         public DateTime DateModified { get; set; }
         [JsonPropertyName("taskId")]

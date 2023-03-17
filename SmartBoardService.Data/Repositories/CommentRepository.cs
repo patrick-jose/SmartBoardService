@@ -31,6 +31,8 @@ namespace SmartBoardService.Data.Repositories
                     writerid = comment.WriterId
                 };
 
+                Console.WriteLine(queryArgs);
+
                 var result = await _dbConnection.connection.ExecuteAsync(commandText, queryArgs);
 
                 _dbConnection.CloseConnection();
@@ -41,6 +43,7 @@ namespace SmartBoardService.Data.Repositories
             }
             catch (Exception ex)
             {
+                Console.WriteLine(ex);
                 _log.LogWrite(ex.Message);
                 throw;
             }

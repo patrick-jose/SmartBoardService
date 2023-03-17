@@ -37,6 +37,8 @@ namespace SmartBoardService.Data.Repositories
                     datecreation = task.DateCreation
                 };
 
+                Console.WriteLine(queryArgs);
+
                 var result = await _dbConnection.connection.ExecuteAsync(commandText, queryArgs);
 
                 _dbConnection.CloseConnection();

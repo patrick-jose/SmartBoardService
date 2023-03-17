@@ -21,7 +21,7 @@ namespace SmartBoardService.Data.DTOs
         public bool Active { get; set; }
         [JsonPropertyName("blocked")]
         public bool Blocked { get; set; }
-        [JsonPropertyName("assigneeid")]
+        [JsonPropertyName("assigneeId")]
         public long? AssigneeId { get; set; }
         [JsonPropertyName("position")]
         public long Position { get; set; }

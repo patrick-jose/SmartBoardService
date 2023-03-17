@@ -13,7 +13,7 @@ namespace SmartBoardService.Data.DTOs
         public bool Active { get; set; }
         [JsonPropertyName("position")]
         public long Position { get; set; }
-        [JsonPropertyName("boardid")]
+        [JsonPropertyName("boardId")]
         public long BoardId { get; set; }
     }
 }

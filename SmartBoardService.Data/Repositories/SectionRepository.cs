@@ -32,14 +32,19 @@ namespace SmartBoardService.Data.Repositories
                     active = section.Active
                 };
 
+                Console.WriteLine(queryArgs);
+
                 var result = await _dbConnection.connection.ExecuteAsync(commandText, queryArgs);
 
                 _dbConnection.CloseConnection();
+
+                Console.WriteLine("Data inserted! ----------> " + queryArgs);
 
                 return result == 1;
             }
             catch (Exception ex)
             {
+                Console.WriteLine(ex.Message);
                 _log.LogWrite(ex.Message);
                 throw;
             }
@@ -66,6 +71,8 @@ namespace SmartBoardService.Data.Repositories
                 var result = await _dbConnection.connection.ExecuteAsync(commandText, queryArgs);
 
                 _dbConnection.CloseConnection();
+
+                Console.WriteLine("Data updated! ----------> " + queryArgs);
 
                 return result == 1;
             }

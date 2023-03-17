@@ -41,6 +41,8 @@ namespace SmartBoardService.Data.Repositories
 
                 _dbConnection.CloseConnection();
 
+                Console.WriteLine("Data inserted! ----------> " + queryArgs);
+
                 return result == 1;
             }
             catch (Exception ex)
@@ -79,6 +81,8 @@ namespace SmartBoardService.Data.Repositories
                 var result = await _dbConnection.connection.ExecuteAsync(commandText, queryArgs);
 
                 _dbConnection.CloseConnection();
+
+                Console.WriteLine("Data updated! ----------> " + queryArgs);
 
                 return result == 1;
             }

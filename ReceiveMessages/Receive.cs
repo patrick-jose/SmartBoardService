@@ -78,6 +78,7 @@ namespace ReceiveMessages
                                 sectionRepository.UpdateSectionsAsync(JsonSerializer.Deserialize<List<SectionDTO>>(Encoding.UTF8.GetString(body)));
                             else
                             {
+                                Console.WriteLine(JsonSerializer.Deserialize<SectionDTO>(Encoding.UTF8.GetString(body)).Name);
                                 if (header.TransactionType == TransactionTypeEnum.UPDATE)
                                     sectionRepository.UpdateSectionAsync(JsonSerializer.Deserialize<SectionDTO>(Encoding.UTF8.GetString(body)));
                                 else

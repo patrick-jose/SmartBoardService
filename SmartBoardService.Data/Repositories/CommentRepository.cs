@@ -35,6 +35,8 @@ namespace SmartBoardService.Data.Repositories
 
                 _dbConnection.CloseConnection();
 
+                Console.WriteLine("Data inserted! ----------> " + queryArgs);
+
                 return result == 1;
             }
             catch (Exception ex)

@@ -47,6 +47,7 @@ namespace SmartBoardService.Data.Repositories
             }
             catch (Exception ex)
             {
+                Console.WriteLine(ex);
                 _log.LogWrite(ex.Message);
                 throw;
             }

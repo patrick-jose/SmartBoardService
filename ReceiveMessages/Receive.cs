@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Text;
 using System.Text.Json;
-using System.Xml.Linq;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using SmartBoardService.Data.DTOs;
@@ -29,7 +28,12 @@ namespace ReceiveMessages
             var boardRepository = new BoardRepository(log);
             var sectionRepository = new SectionRepository(log);
 
-            var factory = new ConnectionFactory { HostName = "localhost" };
+            var factory = new ConnectionFactory 
+            { 
+                Uri = new Uri(@"amqp://guest:guest@rabbitmq:5672/"),
+                NetworkRecoveryInterval = TimeSpan.FromSeconds(10),
+                AutomaticRecoveryEnabled = true
+            };
             using var connection = factory.CreateConnection();
             using var channel = connection.CreateModel();
 

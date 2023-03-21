@@ -49,6 +49,15 @@ services:
       - '${HOME}/.microsoft/usersecrets/:/root/.microsoft/usersecrets'
       - '${HOME}/.aspnet/https:/root/.aspnet/https/'
 
+  SmartBoardFront:
+    container_name: smartboarfront
+    ports:
+        - '4200:80'
+    image: smartboardfront
+    networks:
+        - smartboard-network
+
+
   rabbitmq:
     image: rabbitmq:3-management-alpine
     container_name: 'rabbitmq'

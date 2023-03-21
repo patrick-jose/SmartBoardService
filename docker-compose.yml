@@ -25,11 +25,29 @@ services:
       dockerfile: SmartBoardService/Dockerfile
     depends_on: 
       - SmartBoardDB
-      - rabbitmq
+      - rabbitmq      
     ports:
       - "8080:80"
     networks:
       - smartboard-network
+
+  SmartBoardWebAPI:
+    image: smartboardwebapi
+    build:
+      context: .
+      dockerfile: SmartBoardWebAPI/Dockerfile
+    ports:
+      - "8000:80"
+      - "8081:443"
+    networks:
+      - smartboard-network
+    environment:
+      - ASPNETCORE_HTTPS_PORT=8001
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=https://+;http://+
+    volumes:
+      - '${HOME}/.microsoft/usersecrets/:/root/.microsoft/usersecrets'
+      - '${HOME}/.aspnet/https:/root/.aspnet/https/'
 
   rabbitmq:
     image: rabbitmq:3-management-alpine

@@ -64,6 +64,8 @@ namespace ReceiveMessages
 
                     var body = ea.Body.ToArray();
 
+                    Console.WriteLine(" [*] Received message -- " + Encoding.UTF8.GetString(body));
+
                     switch (header.Element)
                     {
                         case ElementEnum.TASK:

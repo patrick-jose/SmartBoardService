@@ -10,12 +10,19 @@ namespace SmartBoardService.Tests.Repository
     {
         private ICommentRepository _commentRepository;
         private ILogWriter _log;
+        private DbConnection _dbConnection;
+
+        internal void StartServices()
+        {
+            _log = new LogWriter();
+            _dbConnection = new DbConnection(_log);
+            _commentRepository = new CommentRepository(_log, _dbConnection);
+        }
 
         [TestMethod]
         public async Task InsertCommentAsyncTest()
         {
-            _log = new LogWriter();
-            _commentRepository = new CommentRepository(_log);
+            StartServices();
 
             var dto = new CommentDTO()
             {

@@ -10,12 +10,19 @@ namespace SmartBoardService.Tests.Repository
     {
         private ITaskRepository _taskRepository;
         private ILogWriter _log;
+        private DbConnection _dbConnection;
+
+        internal void StartServices()
+        {
+            _log = new LogWriter();
+            _dbConnection = new DbConnection(_log);
+            _taskRepository = new TaskRepository(_log, _dbConnection);
+        }
 
         [TestMethod]
         public async Task UpdateTaskAsyncTest()
         {
-            _log = new LogWriter();
-            _taskRepository = new TaskRepository(_log);
+            StartServices();
 
             var dto = new TaskDTO()
             {
@@ -37,8 +44,7 @@ namespace SmartBoardService.Tests.Repository
         [TestMethod]
         public async Task UpdateTasksAsyncTest()
         {
-            _log = new LogWriter();
-            _taskRepository = new TaskRepository(_log);
+            StartServices();
 
             var dto1 = new TaskDTO()
             {
@@ -76,8 +82,7 @@ namespace SmartBoardService.Tests.Repository
         [TestMethod]
         public async Task InsertTaskAsyncTest()
         {
-            _log = new LogWriter();
-            _taskRepository = new TaskRepository(_log);
+            StartServices();
 
             var dto = new TaskDTO()
             {

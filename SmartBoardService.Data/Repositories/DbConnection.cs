@@ -6,11 +6,11 @@ namespace SmartBoardService.Data.Repositories
 {
     public class DbConnection : IDbConnection
     {
-        private const string CONNECTION_STRING = "Host=smartboarddb;port=5432;Username=postgres;Password=postgrespw;Database=smartboarddb;Pooling=false;Timeout=300;CommandTimeout=300";
+        private const string CONNECTION_STRING = "Host=localhost;port=5432;Username=postgres;Password=postgrespw;Database=smartboarddb;Pooling=false;Timeout=300;CommandTimeout=300";
         public readonly NpgsqlConnection connection;
         private readonly ILogWriter _log;
 
-        internal DbConnection(ILogWriter log)
+        public DbConnection(ILogWriter log)
         {
             try
             {

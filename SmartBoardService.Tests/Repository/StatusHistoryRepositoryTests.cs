@@ -10,12 +10,19 @@ namespace SmartBoardService.Tests.Repository
     {
         private IStatusHistoryRepository _statusHistoryRepository;
         private ILogWriter _log;
+        private DbConnection _dbConnection;
+
+        internal void StartServices()
+        {
+            _log = new LogWriter();
+            _dbConnection = new DbConnection(_log);
+            _statusHistoryRepository = new StatusHistoryRepository(_log, _dbConnection);
+        }
 
         [TestMethod]
         public async Task InsertStatusHistoryAsyncTest()
         {
-            _log = new LogWriter();
-            _statusHistoryRepository = new StatusHistoryRepository(_log);
+            StartServices();
 
             var dto = new StatusHistoryDTO()
             {

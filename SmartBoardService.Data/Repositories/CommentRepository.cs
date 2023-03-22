@@ -10,10 +10,10 @@ namespace SmartBoardService.Data.Repositories
         private readonly ILogWriter _log;
         private readonly DbConnection _dbConnection;
 
-        public CommentRepository(ILogWriter log)
+        public CommentRepository(ILogWriter log, DbConnection dbConnection)
         {
             _log = log;
-            _dbConnection = new DbConnection(_log);
+            _dbConnection = dbConnection;
         }
 
         public async Task<bool> InsertCommentAsync(CommentDTO comment)

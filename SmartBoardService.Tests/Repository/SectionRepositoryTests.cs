@@ -10,12 +10,19 @@ namespace SmartBoardService.Tests.Repository
     {
         private ISectionRepository _sectionRepository;
         private ILogWriter _log;
+        private DbConnection _dbConnection;
+
+        internal void StartServices()
+        {
+            _log = new LogWriter();
+            _dbConnection = new DbConnection(_log);
+            _sectionRepository = new SectionRepository(_log, _dbConnection);
+        }
 
         [TestMethod]
         public async Task UpdateSectionAsyncTest()
         {
-            _log = new LogWriter();
-            _sectionRepository = new SectionRepository(_log);
+            StartServices();
 
             var dto = new SectionDTO()
             {
@@ -33,8 +40,7 @@ namespace SmartBoardService.Tests.Repository
         [TestMethod]
         public async Task UpdateSectionsAsyncTest()
         {
-            _log = new LogWriter();
-            _sectionRepository = new SectionRepository(_log);
+            StartServices();
 
             var dto1 = new SectionDTO()
             {
@@ -64,8 +70,7 @@ namespace SmartBoardService.Tests.Repository
         [TestMethod]
         public async Task InsertSectionAsyncTest()
         {
-            _log = new LogWriter();
-            _sectionRepository = new SectionRepository(_log);
+            StartServices();
 
             var dto = new SectionDTO()
             {

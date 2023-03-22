@@ -10,10 +10,10 @@ namespace SmartBoardService.Data.Repositories
         private readonly ILogWriter _log;
         private readonly DbConnection _dbConnection;
 
-        public UserRepository(ILogWriter log)
+        public UserRepository(ILogWriter log, DbConnection dbConnection)
         {
             _log = log;
-            _dbConnection = new DbConnection(_log);
+            _dbConnection = dbConnection;
         }
 
         public async Task<bool> InsertUserAsync(UserDTO user)

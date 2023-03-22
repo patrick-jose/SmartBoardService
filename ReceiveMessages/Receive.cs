@@ -9,7 +9,12 @@ using SmartBoardService.Utils;
 
 namespace ReceiveMessages
 {
-    public class Receive
+    public interface IReceive
+    {
+        void StartListening();
+    }
+
+    public class Receive : IReceive
     {
         public void StartListening()
         {
@@ -21,16 +26,18 @@ namespace ReceiveMessages
             var commentDTO = new CommentDTO();
             var boardDTO = new BoardDTO();
 
-            var userRepository = new UserRepository(log);
-            var statusHistoryRepository = new StatusHistoryRepository(log);
-            var commentRepository = new CommentRepository(log);
-            var taskRepository = new TaskRepository(log);
-            var boardRepository = new BoardRepository(log);
-            var sectionRepository = new SectionRepository(log);
+            var db = new DbConnection(log);
 
-            var factory = new ConnectionFactory 
-            { 
-                Uri = new Uri(@"amqp://guest:guest@rabbitmq:5672/"),
+            var userRepository = new UserRepository(log, db);
+            var statusHistoryRepository = new StatusHistoryRepository(log, db);
+            var commentRepository = new CommentRepository(log, db);
+            var taskRepository = new TaskRepository(log, db);
+            var boardRepository = new BoardRepository(log, db);
+            var sectionRepository = new SectionRepository(log, db);
+
+            var factory = new ConnectionFactory
+            {
+                Uri = new Uri(@"amqp://guest:guest@localhost:5672/"),
                 NetworkRecoveryInterval = TimeSpan.FromSeconds(10),
                 AutomaticRecoveryEnabled = true
             };

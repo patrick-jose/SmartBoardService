@@ -18,19 +18,19 @@ services:
     networks:
       - smartboard-network
 
-  SmartBoardService:
-    image: patrickamaral/smartboardservice
-    build:
-      context: .
-      dockerfile: SmartBoardService/Dockerfile
-    depends_on: 
-      - SmartBoardDB
-      - rabbitmq      
-    ports:
-      - "8080:80"
-    networks:
-      - smartboard-network
-    restart: always
+  #SmartBoardService:
+    #image: smartboardservice
+    #build:
+      #context: .
+      #dockerfile: SmartBoardService/Dockerfile
+    #depends_on: 
+      #- SmartBoardDB
+      #- rabbitmq      
+    #ports:
+      #- "8080:80"
+    #networks:
+      #- smartboard-network
+    #restart: always
 
   SmartBoardWebAPI:
     image: patrickamaral/smartboardwebapi
